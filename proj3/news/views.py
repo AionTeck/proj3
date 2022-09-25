@@ -21,3 +21,9 @@ def get_category(request, category_id):
                   {'news': news,
                     'category': category},
                   )
+def view_news(request, news_id):
+    try:
+        news_item = News.objects.get(pk=news_id)
+    except News.DoesNotExists:
+        reise
+    return render(request, 'news/view_news.html', {'news_item': news_item})

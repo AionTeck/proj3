@@ -16,7 +16,7 @@
 {% if item.is_published %}
 <div class="card md-3">
     <h5 class="card-header">
-        Categories: <a href="{% url 'category' item.category.pk %}">{{ item.category }}</a>
+        Categories: {{ item.category }}
     </h5>
     <div class="card-body">
         <div class="media" style="text-align: center;">
@@ -31,7 +31,7 @@
                 {% autoescape off %}
                 <p class="card-text">{{ item.content|linebreaksbr|truncatewords:60 }}</p>
                 {% endautoescape %}
-                <a href="#" class="btn btn-dark">Read more...</a>
+                <a href="{{ item.get_absolute_url }}" class="btn btn-dark">Read more...</a>
             </div>
         </div>
     </div>
