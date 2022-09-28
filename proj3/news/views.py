@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
 from .models import News, Category
+from .forms import NewsForm
+from django.shortcuts import get_object_or_404, redirect
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 def index(request):
@@ -19,11 +21,21 @@ def get_category(request, category_id):
     return render(request,
                   'news/category.html',
                   {'news': news,
-                    'category': category},
+                   'category': category},
                   )
+
+
 def view_news(request, news_id):
-    try:
-        news_item = News.objects.get(pk=news_id)
-    except News.DoesNotExists:
-        reise
+    news_item = get_object_or_404(News, pk=news_id)
     return render(request, 'news/view_news.html', {'news_item': news_item})
+
+
+def add_news(request):
+    if request.method == 'POST':
+        form = NewsForm(request.POST, request.FILES)
+        if form.is_valid():
+            news = form.save()
+            return redirect('home')
+    else:
+        form = NewsForm()
+    return render(request, 'news/add_news.html', {'form': form})
