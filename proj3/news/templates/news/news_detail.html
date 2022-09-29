@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{ block.super }}
+{{ news_item.title }}
 {% endblock %}
 
 {% block slidebar %}
@@ -11,41 +11,29 @@
 {% endblock %}
 
 {% block content %}
-
-    {% for item in news %}
-
-        {% if item.is_published %}
         <div class="card md-3">
             <h5 class="card-header">
-                Categories: <a href="{{ item.category.get_absolute_url }}">{{ item.category }}</a>
+                Categories: <a href="{{ news_item.category.get_absolute_url }}">{{ news_item.category }}</a>
             </h5>
             <div class="card-body">
                 <div class="media" style="text-align: center;">
-                    {% if item.photo %}
-                    <img src="{{ item.photo.url }}" alt="" width="500" class="ml-5">
+                    {% if news_item.photo %}
+                    <img src="{{ news_item.photo.url }}" alt="" width="500" class="ml-5">
                     {% else %}
                     <img src="https://красстрой.рф/wp-content/themes/krasstroy/assets/images/not_loaded.jpg" width="500"
                          class="mr-3">
                     {% endif %}
                     <div class="media-body">
-                        <h4 class="card-title">{{ item.title }}</h4>
+                        <h4 class="card-title">{{ news_item.title }}</h4>
                         {% autoescape off %}
-                        <p class="card-text">{{ item.content|linebreaksbr|truncatewords:60 }}</p>
+                        <p class="card-text">{{ news_item.content|linebreaksbr }}</p>
                         {% endautoescape %}
-                        <a href="{{ item.get_absolute_url }}" class="btn btn-dark">Read more...</a>
                     </div>
                 </div>
             </div>
             <div class="card-footer text-muted">
-                Date of public: {{item.created_at|date:"Y-m-d H:i"}}, {{ item.created_at|timesince }} ago
+                Date of public: {{news_item.created_at|date:"Y-m-d H:i"}}, {{ item.created_at|timesince }} ago
             </div>
         </div>
-
-        {% endif %}
-
-    {% empty %}
-
-    <h3>Ooops... Somthing wrong...</h3>
-    {% endfor %}
 
 {% endblock %}
